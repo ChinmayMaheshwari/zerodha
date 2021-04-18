@@ -16,10 +16,12 @@ class FetchData(APIView):
         search_type = self.request.query_params.get("type", "")
         value = self.request.query_params.get("value", "")
         value = value.upper()
-        if search_type == "contains":
+        if search_type == "contains" and value != "":
             all_keys = r.keys("*" + value + "*")
-        else:
+        elif value != "":
             all_keys = r.keys(value + "*")
+        else:
+            all_keys = r.keys("A*")
         result = []
         for key in all_keys:
             result.append(
